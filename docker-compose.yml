@@ -1,0 +1,19 @@
+dunlin:
+  image: dunlin
+  environment:
+    VIRTUAL_HOST: ${VIDEO_HOST}
+    SIGNALING_SERVER: ${SIGNALING_HOST}
+    CERT_PATH: /etc/letsencrypt/live/video.dunlin.io
+signaling-server:
+  image: signaling-server
+  environment:
+    VIRTUAL_HOST: ${SIGNALING_HOST}
+    CERT_PATH: /etc/letsencrypt/live/video.dunlin.io
+nginx:
+  build: ./nginx
+  ports:
+    - 80:80
+    - 443:443
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    - /etc/letsencrypt:/etc/letsencrypt
